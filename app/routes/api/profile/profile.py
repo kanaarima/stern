@@ -10,22 +10,20 @@ router = Blueprint("profile", __name__)
 @router.get('/<user_id>')
 @validate()
 def profile(user_id: str) -> dict:
-    if not user_id.isdigit():
-        # Lookup user by username
-        if not (user := users.fetch_by_name_extended(user_id)):
-            return Response(
-                response=(),
-                status=404,
-                mimetype='application/json'
-            )
-
-    else:
+    if user_id.isdigit():
         if not (user := users.fetch_by_id(user_id)):
             return Response(
                 response=(),
                 status=404,
                 mimetype='application/json'
             )
+
+    elif not (user := users.fetch_by_name_extended(user_id)):
+        return Response(
+            response=(),
+            status=404,
+            mimetype='application/json'
+        )
 
     user.stats.sort(key=lambda x: x.mode)
 

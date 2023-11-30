@@ -61,22 +61,20 @@ def plays_history(
             mimetype='application/json'
         )
 
-    if not user_id.isdigit():
-        # Lookup user by username
-        if not (user := users.fetch_by_name_extended(user_id)):
-            return Response(
-                response=(),
-                status=404,
-                mimetype='application/json'
-            )
-
-    else:
+    if user_id.isdigit():
         if not (user := users.fetch_by_id(user_id)):
             return Response(
                 response=(),
                 status=404,
                 mimetype='application/json'
             )
+
+    elif not (user := users.fetch_by_name_extended(user_id)):
+        return Response(
+            response=(),
+            status=404,
+            mimetype='application/json'
+        )
 
     if date_string := request.args.get('until'):
         until = datetime.fromisoformat(date_string)
@@ -107,22 +105,20 @@ def replay_views_history(
             mimetype='application/json'
         )
 
-    if not user_id.isdigit():
-        # Lookup user by username
-        if not (user := users.fetch_by_name_extended(user_id)):
-            return Response(
-                response=(),
-                status=404,
-                mimetype='application/json'
-            )
-
-    else:
+    if user_id.isdigit():
         if not (user := users.fetch_by_id(user_id)):
             return Response(
                 response=(),
                 status=404,
                 mimetype='application/json'
             )
+
+    elif not (user := users.fetch_by_name_extended(user_id)):
+        return Response(
+            response=(),
+            status=404,
+            mimetype='application/json'
+        )
 
     if date_string := request.args.get('until'):
         until = datetime.fromisoformat(date_string)

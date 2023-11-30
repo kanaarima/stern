@@ -12,7 +12,7 @@ router = Blueprint('rankings', __name__)
 
 @router.get('/<mode>/<order_type>')
 def rankings(mode: str, order_type: str):
-    if (mode := GameMode.from_alias(mode)) == None:
+    if (mode := GameMode.from_alias(mode)) is None:
         return abort(404)
 
     if order_type not in ('performance', 'rscore', 'tscore', 'ppv1', 'country'):
@@ -36,8 +36,7 @@ def rankings(mode: str, order_type: str):
 
         # Fetch all users from leaderboard
         users_db = users.fetch_many(
-            tuple([user[0] for user in leaderboard]),
-            DBUser.stats
+            tuple(user[0] for user in leaderboard), DBUser.stats
         )
 
         # Sort users based on redis leaderboard

@@ -26,9 +26,7 @@ def update_stats():
 
 def update_usercount():
     """Add entries of current usercount inside database"""
-    last_entry = db_usercount.fetch_last()
-
-    if last_entry:
+    if last_entry := db_usercount.fetch_last():
         last_entry_time = last_entry.time.replace(tzinfo=None)
         time_since_last_entry = (datetime.now() - last_entry_time).total_seconds()
 
