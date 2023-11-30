@@ -49,10 +49,7 @@ def rankings(
         )
 
         # Fetch user info from database
-        users_db = users.fetch_many(
-            tuple([user[0] for user in users_top]),
-            DBUser.stats
-        )
+        users_db = users.fetch_many(tuple(user[0] for user in users_top), DBUser.stats)
 
         # Sort users based on redis leaderboard
         sorted_users = [

@@ -58,12 +58,14 @@ def get_short(mods):
 def get_user_level(total_score: int) -> int:
     next_level = common.constants.level.NEXT_LEVEL
 
-    for level, threshold in enumerate(next_level):
-        if total_score < threshold:
-            return level
-
-    # Return the max level if total_score is higher than all levels
-    return len(next_level)
+    return next(
+        (
+            level
+            for level, threshold in enumerate(next_level)
+            if total_score < threshold
+        ),
+        len(next_level),
+    )
 
 @flask.template_filter('format_activity')
 def format_activity(activity_text: str, activity: common.database.DBActivity) -> str:
